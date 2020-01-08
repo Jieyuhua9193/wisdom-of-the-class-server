@@ -1,9 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
   username: { type: String },
-  password: { type: String },
+  password: {
+    type: String,
+    set(val) {
+      return bcrypt.hashSync(val, 10)
+    }
+  },
   phoneNumber: { type: String },
   avatar: { type: String },
   email: { type: String },
@@ -18,7 +24,7 @@ const userSchema = new Schema({
   qq: { type: String },
   dormitory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' },
   family: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
-  trajectory: {type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory'}
+  trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' }
 });
 
 const adminModel = mongoose.model('User', userSchema);

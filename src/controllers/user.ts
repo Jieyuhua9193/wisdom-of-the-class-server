@@ -1,5 +1,7 @@
 import userModel from '../models/user'
 import IUserBase from '../interface/user'
+import resUtil from '../utils/resUtil'
+const ejs = require('ejs');
 
 class User {
   constructor() {
@@ -13,15 +15,9 @@ class User {
     try {
       await userModel.create(newUser)
     } catch (e) {
-      res.send({
-        code: -1,
-        msg: '系统错误'
-      })
+      res.send(resUtil(-1))
     }
-    res.send({
-      code: 0,
-      msg: '注册成功'
-    })
+    res.status(200).send(resUtil(0))
   };
 }
 
