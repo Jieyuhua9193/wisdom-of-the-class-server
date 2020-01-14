@@ -1,12 +1,136 @@
-<div class="email_content">
-    <h1>
-        <%- code %>
-    </h1>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<style type="text/css">
-.email_content{
-    background: #782342;
-    color: #FFF;
-}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>智慧班级 | 账号激活码</title>
+  <style>
+    .email-wrap {
+      background: linear-gradient(to left, #128Bf1, 40%, #6159Eb);
+      overflow: hidden;
+    }
+
+    .title {
+      font-size: 40px;
+      font-weight: 1000;
+      color: #FFF;
+      text-align: center;
+      position: absolute;
+      top: -30px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .image-wrap {
+      position: relative;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .image {
+      width: 100%;
+    }
+
+    .logo {
+      width: 260px;
+      height: 110px;
+      background: url(http://cms.jieyuhua.top/logo-white.svg);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      margin: 10% 0 5% 10%;
+    }
+
+    .content {
+      padding: 3px;
+      background: #fff;
+      width: 64%;
+      margin: 0 auto;
+    }
+
+    .code {
+      width: 100%;
+      text-align: center;
+    }
+
+    .content__text {
+      color: #666;
+    }
+
+    .email__content {
+      text-indent: 2em;
+    }
+    
+    .footer{
+      width: 100%;
+      text-align: right;
+    }
+    @media(max-width: 400px) {
+      .title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #FFF;
+        text-align: center;
+        position: absolute;
+        top: -5px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        width: 180px;
+        height: 40px;
+        background: url(http://cms.jieyuhua.top/logo-white.svg);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        margin: 7px 0 10px -10px;
+      }
+
+      .email__content__text {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="email-wrap">
+    <div class="logo"></div>
+    <div class="content">
+      <div class="image-wrap">
+        <h1 class="title">欢迎注册智慧班级</h1>
+        <img class="image" src="<%- img %>" />
+      </div>
+      <div class="email__content__wrap">
+        <p class="email__content__text">亲爱的用户你好：</p>
+        <p class="email__content email__content__text">
+          我是智慧班级助手`花花`,首先，我仅代表智慧班级系统，热烈欢迎您的加入相信您
+          也了解到了，智慧班级是一款非常优秀的班级管理系统，我们有优秀的XX功能...
+        </p>
+        <p class="email__content email__content__text">奉上您的验证码</p>
+        <h3 class="code">
+          <%= code %>
+        </h3>
+        <p class="email__content email__content__text">再次欢迎您的加入</p>
+        <div class="footer email__content__text">
+          <p>智慧班级小助手</p>
+          <p><%= EmailDate %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

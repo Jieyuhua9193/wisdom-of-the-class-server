@@ -2,6 +2,7 @@ import userModel from '../models/user'
 import IUserBase from '../interface/user'
 import resUtil from '../utils/resUtil'
 import Email, { emailContent } from '../utils/emailUtil'
+const path = require('path')
 
 const ejs = require('ejs');
 const cacheUtil = require('memory-cache');
@@ -18,7 +19,7 @@ class User {
       password: password
     };
     try {
-      // await userModel.create(newUser);
+      await userModel.create(newUser);
       await this.sendValidateCode(newUser.email);
     } catch (e) {
       res.send(resUtil(-1))
@@ -31,18 +32,21 @@ class User {
       return;
     const code = Math.floor(Math.random() * (9999 - 1000)) + 1000;
     await cacheUtil.put(`ver_code_${email}`, code, 60 * 1000 * 5);
-    await ejs.renderFile(
-    '/Users/mac/Desktop/project/wisdom_server/src/template/email_def.ejs',
-    { code: code },
-    (err, str) => {
-      let emailContent: emailContent = {
-        user: email,
-        subject: '智慧班级激活码',
-        html: str
-      };
-      new Email(emailContent).sendEmail()
+    const tempPath = path.join(path.resolve('./src/template'), 'email_def.ejs')
+    const RandomImage = Math.floor(Math.random() * 22) + 1
+    const imagePath = `http://qiniu.jieyuhua.top/blog/library/${RandomImage}.jpg`
+    let tempData = {
+      code: code,
+      img: imagePath,
+      EmailDate: '2020-1-13'
     }
-    );
+    const template = await ejs.renderFile(tempPath, tempData)
+    let emailContent: emailContent = {
+      user: email,
+      subject: '智慧班级激活码',
+      html: template
+    };
+    await new Email(emailContent).sendEmail()
   }
 }
 
