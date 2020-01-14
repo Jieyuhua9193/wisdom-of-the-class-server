@@ -1,10 +1,9 @@
 import express = require('express');
 import mongoose = require('mongoose');
 import Router from './src/routes/index'
-import bodyParser from 'body-parser'
-const dotenv = require('dotenv');
+import dote from 'dotenv';
 
-dotenv.config();
+dote.config();
 const app: express.Application = express();
 app.set("port", process.env.PORT || 3000);
 // 数据库相关
@@ -18,7 +17,5 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 });
 
 Router(app);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 module.exports = app;

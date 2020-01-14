@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-interface emailContent {
+export interface emailContent {
   user: string,
   subject: string,
   text?: string,
@@ -31,20 +31,31 @@ class EmailUtil {
     this.html = emailContent.html || null;
   }
 
-  public sendEmail() {
-    this.transporter.sendMail({
+  public getEmailContent(): object {
+    let retult = {
       from: this.system,
       to: this.user,
       subject: this.subject,
-      text: this.text,
-      html: this.html
-    }, (err, info) => {
+    };
+    if (this.text){
+      retult['text'] = this.text
+    } else {
+      retult['html'] = this.html
+    }
+    return retult
+  }
+
+  public sendEmail() {
+    const content = this.getEmailContent();
+    console.log(content);
+    this.transporter.sendMail(content, (err, info) => {
       if (err) {
         console.log('>>>处理错误<<<:', err)
+      } else {
+        console.log('mail send ok !', info);
       }
-      console.log('mail send ok !', info);
     })
   }
 }
 
-export default  EmailUtil;
+export default EmailUtil;
