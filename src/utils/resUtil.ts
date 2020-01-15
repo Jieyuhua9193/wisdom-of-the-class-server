@@ -1,9 +1,8 @@
 export default (code: Number, data?: any) => {
-  switch (code) {
-    case 0:
-      return successFn(code, data);
-    case -1:
-      return errorFn(code);
+  if (code >= 0) {
+    return successFn(code, data);
+  } else {
+    return errorFn(code);
   }
 }
 
@@ -26,12 +25,14 @@ function errorFn(code: Number): IResponse {
     case -1:
       msg = '系统异常';
       break;
-    case -2:
+    case -21:
       msg = '账户/密码错误';
       break;
-    case -3:
+    case -22:
       msg = '权限不足';
       break;
+    case -23:
+      msg = '激活码错误';
     default:
       msg = '未知错误';
   }

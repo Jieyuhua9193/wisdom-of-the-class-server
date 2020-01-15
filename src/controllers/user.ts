@@ -12,7 +12,6 @@ class User {
   }
 
   public register = async (req, res) => {
-    console.log(req.body);
     const { email, password } = req.body;
     const newUser: IUserBase = {
       email: email,
@@ -25,6 +24,7 @@ class User {
       res.send(resUtil(-1))
     }
     res.status(200).send(resUtil(0))
+    res.end()
   };
 
   public sendValidateCode = async (email: string): Promise<void> => {
@@ -47,6 +47,34 @@ class User {
       html: template
     };
     await new Email(emailContent).sendEmail()
+  }
+
+  public ActivateAccount = async (req, res) => {
+    const { email, code } = req.body;
+    const realCode = cacheUtil.get(`ver_code_${email}`)
+    if (realCode && code === realCode) {
+      try {
+        await userModel.findOneAndUpdate({ email: email }, { $set: { isActivationed: true } })
+        res.status(200).send(resUtil(0))
+      } catch (error) {
+        res.status(500).send(resUtil(-1))
+      }
+    } else {
+      res.status(400).send(resUtil(-23))
+    }
+    res.end()
+  }
+
+  public Login = async (req, res) => {
+
+  }
+
+  public setUserInfo = async (req, res) => {
+
+  }
+
+  public getUserInfo = async (req, res) => {
+    
   }
 }
 
