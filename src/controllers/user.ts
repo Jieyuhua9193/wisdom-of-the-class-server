@@ -52,7 +52,7 @@ class User {
   public ActivateAccount = async (req, res) => {
     const { email, code } = req.body;
     const realCode = cacheUtil.get(`ver_code_${email}`)
-    if (realCode && code === realCode) {
+    if (realCode && Number(code) === realCode) {
       try {
         await userModel.findOneAndUpdate({ email: email }, { $set: { isActivationed: true } })
         res.status(200).send(resUtil(0))
@@ -74,7 +74,7 @@ class User {
   }
 
   public getUserInfo = async (req, res) => {
-    
+
   }
 }
 

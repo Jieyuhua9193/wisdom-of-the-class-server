@@ -33,6 +33,7 @@ function errorFn(code: Number): IResponse {
       break;
     case -23:
       msg = '激活码错误';
+      break;
     default:
       msg = '未知错误';
   }
