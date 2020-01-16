@@ -22,6 +22,8 @@ const userSchema = new Schema({
   wxName: { type: String },
   wxNumber: { type: String },
   qq: { type: String },
+  officeAddress: { type: String },
+  studentId: { type: String },
   dormitory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' },
   family: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
   trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' }

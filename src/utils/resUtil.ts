@@ -1,45 +1,13 @@
-export default (code: Number, data?: any) => {
+export default (code: any, data?: any) => {
   if (code >= 0) {
-    return successFn(code, data);
+    return {
+      code: code,
+      result: data || null
+    }
   } else {
-    return errorFn(code);
+    return {
+      code: code,
+      msg: data || null
+    }
   }
 }
-
-interface IResponse {
-  code: Number,
-  result?: any,
-  msg?: String
-}
-
-function successFn(code: Number, data ?: any): IResponse {
-  return {
-    code: code,
-    result: data || null
-  }
-}
-
-function errorFn(code: Number): IResponse {
-  let msg: String;
-  switch (code) {
-    case -1:
-      msg = '系统异常';
-      break;
-    case -21:
-      msg = '账户/密码错误';
-      break;
-    case -22:
-      msg = '权限不足';
-      break;
-    case -23:
-      msg = '激活码错误';
-      break;
-    default:
-      msg = '未知错误';
-  }
-  return {
-    code: code,
-    msg: msg
-  }
-}
-
