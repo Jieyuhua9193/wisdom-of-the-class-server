@@ -6,6 +6,7 @@ import dote from 'dotenv';
 dote.config();
 const app: express.Application = express();
 app.set("port", process.env.PORT || 3000);
+
 // 数据库相关
 const mongoUrl = 'mongodb://127.0.0.1/wisdom_of_class';
 mongoose.Promise = global.Promise;
