@@ -61,7 +61,7 @@ class User {
         res.status(500).send(resUtil(-1, error))
       }
     } else {
-      res.status(400).send(resUtil(-1, '激活码错误'))
+      res.status(400).send(resUtil('VER_CODE_ERR', '激活码错误'))
     }
     res.end()
   }
@@ -72,7 +72,7 @@ class User {
       const user = await userModel.findOne({ email }, '-_id -__v')
       console.log('user:', user)
       if (!user) {
-        res.status(403).send(-1, '该邮箱未注册，请注册后登录')
+        res.status(403).send('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录')
       }
       const flag: boolean = bcrypt.compare(password, user.password)
       if (flag) {
