@@ -3,9 +3,10 @@ import IUserBase from '../interface/user'
 import resUtil from '../utils/resUtil'
 
 const bcrypt = require('bcryptjs');
-import Email, { emailContent } from '../utils/emailUtil'
+import Email, {emailContent} from '../utils/emailUtil'
 
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const ejs = require('ejs');
 const cacheUtil = require('memory-cache');
@@ -15,7 +16,7 @@ class User {
   }
 
   public register = async (req, res) => {
-    const { email, password } = req.body;
+    const {email, password} = req.body;
     const newUser: IUserBase = {
       email: email,
       password: password
@@ -53,37 +54,49 @@ class User {
   };
 
   public ActivateAccount = async (req, res) => {
-    const { email, code } = req.body;
+    const {email, code} = req.body;
     const realCode = cacheUtil.get(`ver_code_${email}`);
     if (realCode && Number(code) === realCode) {
       try {
-        await userModel.findOneAndUpdate({ email: email }, { $set: { isActivationed: true } })
+        await userModel.findOneAndUpdate({email: email}, {$set: {isActivationed: true}})
         res.status(200).send(resUtil(0))
       } catch (error) {
         res.status(500).send(resUtil(-1, error))
       }
     } else {
-      res.status(400).send(resUtil(-1, '激活码错误'))
+      res.status(400).send(resUtil('VER_CODE_ERR', '激活码错误'))
     }
     res.end()
   };
 
   public Login = async (req, res) => {
-    const { email, password } = req.body;
+    const {email, password} = req.body;
+    const tokenSecret = process.env.TOKEN_SECRET;
     try {
-      const user = await userModel.findOne({ email }, '-_id -__v');
-      console.log('user:', user);
+      const user = await userModel.findOne({email}, '-_id -__v');
       if (!user) {
-        res.status(403).send(-1, '该邮箱未注册，请注册后登录')
+        res.status(403).send('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录')
       }
-      const flag: boolean = bcrypt.compare(password, user.password);
+      console.log(user.password);
+      const flag: boolean = await bcrypt.compare(password, user.password);
       if (flag) {
-        res.status(200).send(resUtil(0, '登录成功'))
+        let userCopy = JSON.parse(JSON.stringify(user));
+        delete userCopy.password;
+        let token = await jwt.sign(userCopy, tokenSecret, {algorithm: 'HS256', expiresIn: '24h'});
+        let result = {
+          user: userCopy,
+          token: token
+        };
+        res.status(200).send(resUtil(0, result));
+        res.end();
       } else {
-        res.status(200).send(resUtil('PASSWORD_ERROR', '密码错误'))
+        res.status(200).send(resUtil('PASSWORD_ERROR', '密码错误'));
+        res.end();
       }
     } catch (error) {
-      res.status(500).send(-1, error)
+      console.log(error);
+      res.status(500).json(resUtil(-1, '系统错误'));
+      res.end();
     }
   };
 
@@ -93,7 +106,7 @@ class User {
 
   public getUserInfo = async (req, res) => {
 
-  }
+  };
 }
 
 export default new User()

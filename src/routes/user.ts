@@ -3,7 +3,7 @@ const router = express.Router();
 import userController from '../controllers/user'
 
 router.post('/register', userController.register);
-router.post('/activate', userController.ActivateAccount)
+router.post('/activate', userController.ActivateAccount);
 router.post('/login', userController.Login);
 
 export default router
