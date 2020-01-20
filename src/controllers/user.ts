@@ -3,7 +3,7 @@ import IUserBase from '../interface/user'
 import resUtil from '../utils/resUtil'
 
 const bcrypt = require('bcryptjs');
-import Email, {emailContent} from '../utils/emailUtil'
+import Email, { emailContent } from '../utils/emailUtil'
 
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -16,7 +16,7 @@ class User {
   }
 
   public register = async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const newUser: IUserBase = {
       email: email,
       password: password
@@ -54,11 +54,11 @@ class User {
   };
 
   public ActivateAccount = async (req, res) => {
-    const {email, code} = req.body;
+    const { email, code } = req.body;
     const realCode = cacheUtil.get(`ver_code_${email}`);
     if (realCode && Number(code) === realCode) {
       try {
-        await userModel.findOneAndUpdate({email: email}, {$set: {isActivationed: true}})
+        await userModel.findOneAndUpdate({ email: email }, { $set: { isActivationed: true } })
         res.status(200).send(resUtil(0))
       } catch (error) {
         res.status(500).send(resUtil(-1, error))
@@ -69,11 +69,21 @@ class User {
     res.end()
   };
 
+  public getValidateCode = async (req, res) => {
+    const { email } = req.body;
+    try {
+      await this.sendValidateCode(email);
+      res.status(200).send(resUtil(0));
+    } catch (e) {
+      res.status(500).send(resUtil(-1, e))
+    }
+  };
+
   public Login = async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const tokenSecret = process.env.TOKEN_SECRET;
     try {
-      const user = await userModel.findOne({email}, '-_id -__v');
+      const user = await userModel.findOne({ email }, '-_id -__v');
       if (!user) {
         res.status(403).send('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录')
       }
@@ -82,7 +92,7 @@ class User {
       if (flag) {
         let userCopy = JSON.parse(JSON.stringify(user));
         delete userCopy.password;
-        let token = await jwt.sign(userCopy, tokenSecret, {algorithm: 'HS256', expiresIn: '24h'});
+        let token = await jwt.sign(userCopy, tokenSecret, { algorithm: 'HS256', expiresIn: '24h' });
         let result = {
           user: userCopy,
           token: token
