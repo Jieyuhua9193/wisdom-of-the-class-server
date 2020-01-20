@@ -1,6 +1,6 @@
 import express = require('express');
 import mongoose = require('mongoose');
-import Router from './src/routes/index'
+import Router from './src/routes/index';
 import dote from 'dotenv';
 
 dote.config();
