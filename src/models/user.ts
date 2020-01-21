@@ -13,7 +13,7 @@ const userSchema = new Schema({
   phoneNumber: { type: String },
   avatar: { type: String },
   email: { type: String },
-  isActivationed: { type: Boolean, default: false },
+  isActivation: { type: Boolean, default: false },
   system: { type: mongoose.SchemaTypes.ObjectId, ref: 'System' },
   realName: { type: String },
   role: { type: Number },

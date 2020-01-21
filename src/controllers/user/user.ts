@@ -1,13 +1,11 @@
-import userModel from '../models/user'
-import IUserBase from '../interface/user'
-import resUtil from '../utils/resUtil'
+import userModel from '../../models/user'
+import IUserBase from '../../interface/user'
+import resUtil from '../../utils/resUtil'
+import Email, {emailContent} from '../../utils/emailUtil'
 
 const bcrypt = require('bcryptjs');
-import Email, { emailContent } from '../utils/emailUtil'
-
 const path = require('path');
 const jwt = require('jsonwebtoken');
-
 const ejs = require('ejs');
 const cacheUtil = require('memory-cache');
 
@@ -15,7 +13,7 @@ class User {
   constructor() {
   }
 
-  public register = async (req, res) => {
+  public register = async (req, res, next) => {
     const { email, password } = req.body;
     const newUser: IUserBase = {
       email: email,
@@ -25,10 +23,9 @@ class User {
       await userModel.create(newUser);
       await this.sendValidateCode(newUser.email);
     } catch (e) {
-      res.status(500).send(resUtil(-1, e))
+      next(e)
     }
     res.status(200).send(resUtil(0));
-    res.end()
   };
 
   public sendValidateCode = async (email: string): Promise<void> => {
@@ -53,29 +50,28 @@ class User {
     await new Email(emailContent).sendEmail()
   };
 
-  public ActivateAccount = async (req, res) => {
+  public ActivateAccount = async (req, res, next) => {
     const { email, code } = req.body;
     const realCode = cacheUtil.get(`ver_code_${email}`);
     if (realCode && Number(code) === realCode) {
       try {
-        await userModel.findOneAndUpdate({ email: email }, { $set: { isActivationed: true } })
+        await userModel.findOneAndUpdate({ email: email }, { $set: { isActivation: true } });
         res.status(200).send(resUtil(0))
       } catch (error) {
-        res.status(500).send(resUtil(-1, error))
+        next(error)
       }
     } else {
       res.status(400).send(resUtil('VER_CODE_ERR', '激活码错误'))
     }
-    res.end()
   };
 
-  public getValidateCode = async (req, res) => {
+  public getValidateCode = async (req, res, next) => {
     const { email } = req.body;
     try {
       await this.sendValidateCode(email);
-      res.status(200).send(resUtil(0));
+      res.status(200).end();
     } catch (e) {
-      res.status(500).send(resUtil(-1, e))
+      next(e)
     }
   };
 
@@ -85,9 +81,12 @@ class User {
     try {
       const user = await userModel.findOne({ email }, '-_id -__v');
       if (!user) {
-        res.status(403).send('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录')
+        res.status(403).send(resUtil('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录'));
+        return
+      } else if (!user.isActivation) {
+        res.status(403).send(resUtil('NEED_ACTIVATION'));
+        return
       }
-      console.log(user.password);
       const flag: boolean = await bcrypt.compare(password, user.password);
       if (flag) {
         let userCopy = JSON.parse(JSON.stringify(user));
@@ -98,24 +97,34 @@ class User {
           token: token
         };
         res.status(200).send(resUtil(0, result));
-        res.end();
       } else {
         res.status(200).send(resUtil('PASSWORD_ERROR', '密码错误'));
-        res.end();
       }
     } catch (error) {
       console.log(error);
       res.status(500).json(resUtil(-1, '系统错误'));
-      res.end();
     }
   };
 
-  public setUserInfo = async (req, res) => {
-
+  public setUserInfo = async (req, res, next) => {
+    const { email } = req.userInfo;
+    const params = req.body;
+    try {
+      await userModel.findOneAndUpdate({ email }, { $set: params });
+      res.send(resUtil(0))
+    } catch (e) {
+      next(e)
+    }
   };
 
-  public getUserInfo = async (req, res) => {
-
+  public getUserInfo = async (req, res, next) => {
+    try {
+      const { email } = req.userInfo;
+      const user = await userModel.findOne({ email }, '-_id -__v -password');
+      res.status(200).json(resUtil(0, user))
+    } catch (e) {
+      next(e);
+    }
   };
 }
 
