@@ -1,7 +1,7 @@
 import userModel from '../../models/user'
 import IUserBase from '../../interface/user'
 import resUtil from '../../utils/resUtil'
-import Email, {emailContent} from '../../utils/emailUtil'
+import Email, { emailContent } from '../../utils/emailUtil'
 
 const bcrypt = require('bcryptjs');
 const path = require('path');
@@ -20,8 +20,12 @@ class User {
       password: password
     };
     try {
+      const user = await userModel.findOne({ email }, '-_id -__v');
+      if (user) {
+        res.status(200).send(resUtil('USER_NOT_EXIT', '该邮箱已注册，请直接登录'));
+        return
+      }
       await userModel.create(newUser);
-      await this.sendValidateCode(newUser.email);
     } catch (e) {
       next(e)
     }
@@ -29,8 +33,6 @@ class User {
   };
 
   public sendValidateCode = async (email: string): Promise<void> => {
-    if (cacheUtil.get(`ver_code_${email}`))
-      return;
     const code = Math.floor(Math.random() * (9999 - 1000)) + 1000;
     await cacheUtil.put(`ver_code_${email}`, code, 60 * 1000 * 5);
     const tempPath = path.join(path.resolve('./src/template'), 'email_def.ejs');
@@ -61,15 +63,19 @@ class User {
         next(error)
       }
     } else {
-      res.status(400).send(resUtil('VER_CODE_ERR', '激活码错误'))
+      res.status(200).send(resUtil('VER_CODE_ERR', '激活码错误'))
     }
   };
 
   public getValidateCode = async (req, res, next) => {
     const { email } = req.body;
     try {
+      if (cacheUtil.get(`ver_code_${email}`)){
+        res.status(200).send(resUtil('ERROR','操作频繁，请稍后重试'));
+        return
+      }
       await this.sendValidateCode(email);
-      res.status(200).end();
+      res.status(200).send(resUtil(0));
     } catch (e) {
       next(e)
     }
@@ -77,28 +83,35 @@ class User {
 
   public Login = async (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
+    if (!email || !password) {
+      res.status(200).send(resUtil('PARAMS_ERROR', '参数错误'));
+      return
+    }
     const tokenSecret = process.env.TOKEN_SECRET;
     try {
       const user = await userModel.findOne({ email }, '-_id -__v');
       if (!user) {
-        res.status(403).send(resUtil('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录'));
-        return
-      } else if (!user.isActivation) {
-        res.status(403).send(resUtil('NEED_ACTIVATION'));
+        res.status(200).send(resUtil('EMAIL_NOT_FOUND', '该邮箱未注册，请注册后登录'));
         return
       }
       const flag: boolean = await bcrypt.compare(password, user.password);
       if (flag) {
+        let error: any = null;
+        if (!user.isActivation) {
+          error = 'NEED_ACTIVATION';
+        }
         let userCopy = JSON.parse(JSON.stringify(user));
         delete userCopy.password;
         let token = await jwt.sign(userCopy, tokenSecret, { algorithm: 'HS256', expiresIn: '24h' });
         let result = {
+          error: error,
           user: userCopy,
           token: token
         };
         res.status(200).send(resUtil(0, result));
       } else {
-        res.status(200).send(resUtil('PASSWORD_ERROR', '密码错误'));
+        res.status(200).send(resUtil('PASSWORD_ERROR', '密码错误,请重试'));
       }
     } catch (error) {
       console.log(error);

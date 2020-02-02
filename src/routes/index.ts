@@ -8,6 +8,6 @@ let jsonParser = bodyParser.json();
 let urlencodedParser = bodyParser.urlencoded({extended: false});
 
 export default app => {
-  app.use('/', urlencodedParser, authControllers);
-  app.use('/user', urlencodedParser, user)
+  app.use('/', jsonParser, authControllers);
+  app.use('/user', jsonParser, user)
 }
