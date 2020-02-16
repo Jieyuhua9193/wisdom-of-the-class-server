@@ -3,13 +3,14 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
-  username: { type: String },
+  nickName: { type: String },
   password: {
     type: String,
     set(val) {
       return bcrypt.hashSync(val, 10)
     }
   },
+  idCardNumber: { type: String },
   phoneNumber: { type: String },
   avatar: { type: String },
   email: { type: String },
@@ -19,6 +20,7 @@ const userSchema = new Schema({
   role: { type: Number },
   class: { type: mongoose.SchemaTypes.ObjectId, ref: 'Class' },
   permissions: { type: Array },
+  profilePhoto: { type: String },
   wxName: { type: String },
   wxNumber: { type: String },
   qq: { type: String },
