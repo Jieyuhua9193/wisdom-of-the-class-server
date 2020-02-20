@@ -1,7 +1,7 @@
-import userModel from '../../models/user'
-import IUserBase from '../../interface/user'
-import resUtil from '../../utils/resUtil'
-import Email, { emailContent } from '../../utils/emailUtil'
+import userModel from '../../models/user';
+import IUserBase from '../../interface/user';
+import resUtil from '../../utils/resUtil';
+import Email, { emailContent } from '../../utils/emailUtil';
 
 const bcrypt = require('bcryptjs');
 const path = require('path');

@@ -24,7 +24,6 @@ const auth = (token: string, req, res, next): void => {
       if (err) {
         console.log(err);
         res.status(200).send(resUtil('LOGIN_EXPIRED', '登录信息过期，请重新登录'));
-        res.end();
         return
       } else {
         req.userInfo = decoded;

@@ -27,7 +27,7 @@ const userSchema = new Schema({
   officeAddress: { type: String },
   studentId: { type: String },
   dormitory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' },
-  family: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
+  familyAddress: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
   trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' }
 });
 
