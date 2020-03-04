@@ -12,3 +12,5 @@ enum Role {
   moralEducationAdmin = 9,
   custom = 10
 }
+
+export default Role

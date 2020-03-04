@@ -28,9 +28,10 @@ const userSchema = new Schema({
   studentId: { type: String },
   dormitory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' },
   familyAddress: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
-  trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' }
+  trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' },
+  gmtCreate: { type: String }
 });
 
-const adminModel = mongoose.model('User', userSchema);
+const userModel = mongoose.model('User', userSchema);
 
-export default adminModel
+export default userModel
