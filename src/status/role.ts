@@ -1,16 +1,17 @@
 enum Role {
   student = -1,
   admin = 0,
-  teacher = 1,
-  classMonitor = 2,
-  viceClassMonitor = 3,
-  partyBranch = 4,
-  vicePartyBranch = 5,
-  financial = 6,
-  lifeAdmin = 7,
-  culturalAdmin = 8,
-  moralEducationAdmin = 9,
-  custom = 10
+  counselor = 1,
+  teacher = 2,
+  classMonitor = 3,
+  viceClassMonitor = 4,
+  partyBranch = 5,
+  vicePartyBranch = 6,
+  financial = 7,
+  lifeAdmin = 8,
+  culturalAdmin = 9,
+  moralEducationAdmin = 10,
+  custom = 11
 }
 
 export default Role
