@@ -10,7 +10,11 @@ app.set("port", process.env.PORT || 3000);
 // 数据库相关
 const mongoUrl = 'mongodb://127.0.0.1/wisdom_of_class';
 mongoose.Promise = global.Promise;
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoUrl, 
+  { useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  })
 .then(() => {
   console.log('mongodb connection success !')
 }).catch(err => {
