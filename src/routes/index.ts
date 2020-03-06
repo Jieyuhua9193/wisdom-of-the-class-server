@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import user from './user'
 import qiniu from './qiniu'
 import Rclass from './class'
+import student from './student'
 import authControllers from '../controllers/auth'
 
 // create application/json parser
@@ -14,4 +15,5 @@ export default app => {
   app.use('/user', jsonParser, user);
   app.use('/qiniu', qiniu);
   app.use('/class', Rclass);
+  app.use('/student', student)
 }

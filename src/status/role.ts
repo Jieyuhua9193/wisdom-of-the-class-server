@@ -1,5 +1,4 @@
 enum Role {
-  student = -1,
   admin = 0,
   counselor = 1,
   teacher = 2,
@@ -11,7 +10,8 @@ enum Role {
   lifeAdmin = 8,
   culturalAdmin = 9,
   moralEducationAdmin = 10,
-  custom = 11
+  custom = 11,
+  student = 12
 }
 
 export default Role
