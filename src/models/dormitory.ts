@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const dormitorySchema = new Schema({
   class: { type: mongoose.SchemaTypes.ObjectId, ref: 'Class' },
   number: { type: String },
-  type: { type: Number }
+  type: { type: Number },
+  students: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }]
   // dor_id: {type: Number }
 })
 

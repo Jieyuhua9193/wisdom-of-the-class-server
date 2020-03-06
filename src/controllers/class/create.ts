@@ -38,8 +38,8 @@ export default async (req, res, next) => {
       await dormitoryModel.insertMany(dormitories)
       // 关联寝室&生成邀请码
       const invitationCode = {
-        teacher: `${0}-${class_id}`,
-        student: `${1}-${class_id}`
+        teacher: `${1}-${class_id}`,
+        student: `${2}-${class_id}`
       }
       const dormitoryIds = await dormitoryModel.find({ class: class_id }, '_id')
       await classModel.findOneAndUpdate(
