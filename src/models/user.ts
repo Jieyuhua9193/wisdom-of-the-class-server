@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+import moment = require('moment');
 
 const userSchema = new Schema({
   nickName: { type: String },
@@ -29,7 +30,7 @@ const userSchema = new Schema({
   dormitory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' },
   familyAddress: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
   trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' },
-  gmtCreate: { type: String }
+  gmtCreate: { type: String, default: moment().format() }
 });
 
 const userModel = mongoose.model('User', userSchema);
