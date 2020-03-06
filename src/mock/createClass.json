@@ -1,0 +1,22 @@
+{
+	"userInfo": {
+		"nickName":"庆哥",
+		"idCardNumber":"12345333",
+		"phoneNumber": "18709348343",
+		"role": 0
+	},
+	"classInfo": {
+		"schoolName":"浙江邮电职业技术学院",
+		"name":"软件171",
+		"department":"管理与信息学院",
+		"professional":"软件技术",
+		"features":"金鳞岂是池中物，一遇风云便化龙",
+		"dormitories": [{
+			"type": 1,
+			"number": "1#426"
+		},{
+			"type": 2,
+			"number": "3#326"
+		}]
+	}
+}
