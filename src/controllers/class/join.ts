@@ -2,6 +2,7 @@ import classModel from '../../models/class';
 import userModel from '../../models/user'
 import classUtil from '../../utils/classUtil';
 import resUtil from '../../utils/resUtil';
+import Role from '../../status/role';
 
 export default async (req, res, next) => {
   const { email } = req.userInfo
@@ -11,14 +12,15 @@ export default async (req, res, next) => {
     const classId = invitationCode.split('-')[1]
     if (!role || !classId) {
       res.status(200).send(resUtil('CODE ERROR', '邀请码有误，请联系班主任重新获取'));
-    } else if (role !== 1 && role !== 2) {
+    } else if (role !== Role.teacher && role !== Role.student) {
       res.status(200).send(resUtil('CODE ERROR', '邀请码有误，请联系班主任重新获取'));
     } else {
       await userModel.findOneAndUpdate(
         { email },
         {
           $set: {
-            role: role
+            role: role,
+            class: classId
           }
         },
         async function (err, doc) {
