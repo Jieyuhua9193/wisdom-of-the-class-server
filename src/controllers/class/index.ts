@@ -5,9 +5,9 @@ import join from './join';
 class MyClass {
   constructor() {
   }
-  public create = create
-  public get = get
-  public join = join
+  public create = create;
+  public get = get;
+  public join = join;
 }
 
 export default new MyClass()
