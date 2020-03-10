@@ -3,5 +3,6 @@ export default [
   '/user/login',
   '/user/get-verification-code',
   '/user/activate',
-  '/mini/login'
+  '/mini/login',
+  '/mini/bind'
 ]

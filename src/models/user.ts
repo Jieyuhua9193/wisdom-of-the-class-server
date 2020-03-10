@@ -24,6 +24,7 @@ const userSchema = new Schema({
   profilePhoto: { type: String },
   wxName: { type: String },
   wxNumber: { type: String },
+  sex: { type: Number },
   openid: { type: String },
   qq: { type: String },
   officeAddress: { type: String },

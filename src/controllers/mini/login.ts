@@ -2,7 +2,6 @@ import userModel from '../../models/user'
 import resUtil from '../../utils/resUtil'
 
 const jwt = require('jsonwebtoken');
-const tokenSecret = process.env.TOKEN_SECRET;
 
 export default async (req, res, next) => {
   const { openid } = req.body;
@@ -20,6 +19,8 @@ export default async (req, res, next) => {
     if (user) {
       userCopy = JSON.parse(JSON.stringify(user));
       delete userCopy.password;
+      const tokenSecret = process.env.TOKEN_SECRET;
+      console.log(userCopy, tokenSecret);
       token = await jwt.sign(userCopy, tokenSecret, { algorithm: 'HS256', expiresIn: '24h' });
     }
     let result = {
