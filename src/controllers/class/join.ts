@@ -51,5 +51,4 @@ export default async (req, res, next) => {
   } else {
     res.status(200).send(resUtil('NOT HAS INVITATION CODE', '请输入邀请码'));
   }
-  const classId = await classUtil.getClassId(email)
 }

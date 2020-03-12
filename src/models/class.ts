@@ -12,7 +12,7 @@ const classSchema = new Schema({
   professional: { type: String },
   features: { type: String },
   dormitories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' }],
-  gmtCreate: { type: String, default: moment().format() },
+  gmtCreate: { type: String, default: moment().format('YYYY-MM-DD HH:mm:ss') },
   admin: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
   invitationCode: { type: Object }
 });
