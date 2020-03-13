@@ -1,13 +1,13 @@
 import change from './change';
 import get from './get';
-import init from './init';
+import getRecord from './getRecord';
 
 class Assets {
   constructor() {
   }
   public change = change;
   public get = get;
-  public init = init;
+  public getRecord = getRecord;
 }
 
 export default new Assets()

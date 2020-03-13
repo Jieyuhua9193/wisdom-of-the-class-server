@@ -2,31 +2,24 @@ import assetsModel from '../../models/assets';
 import resUtil from '../../utils/resUtil';
 import classUtil from '../../utils/classUtil';
 
-export default async (req, res, next) => {
+export default async (req, res, next) => { // 获取班级总资产
   const { email } = req.userInfo;
   try {
     const classId = await classUtil.getClassId(email);
-    const assetsInfo = await assetsModel.findOne({ class: classId }, '-_id -class -__v')
+    const assetsInfo = await assetsModel.findOne({ class: classId }, 'toatlAssets -_id')
     if (!assetsInfo) {
       await assetsModel.create({
-        class: classId,
-        record: []
+        class: classId
       }, function (err, doc) {
         if (err) {
           console.log('assets err', err)
         }
-        let copyDoc = JSON.parse(JSON.stringify(doc));
-        delete copyDoc._id
-        delete copyDoc.class
-        copyDoc.total = 0
-        res.status(200).send(resUtil(0, copyDoc))
+        res.status(200).send(resUtil(0, {
+          toatlAssets: doc.toatlAssets
+        }))
       })
     } else {
-      const total = await assetsModel.findOne({ class: classId }, 'record').count()
-      res.status(200).send(resUtil(0, {
-        assetsInfo,
-        total
-      }))
+      res.status(200).send(resUtil(0, assetsInfo))
     }
   } catch (err) {
     next(err)
