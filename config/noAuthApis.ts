@@ -4,5 +4,6 @@ export default [
   '/user/get-verification-code',
   '/user/activate',
   '/mini/login',
-  '/mini/bind'
+  '/mini/bind',
+  '/user/downloadTpl'
 ]

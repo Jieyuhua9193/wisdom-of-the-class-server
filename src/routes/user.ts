@@ -8,7 +8,7 @@ router.post('/login', userController.login);
 router.post('/get-verification-code', userController.getValidateCode);
 router.post('/get', userController.get);
 router.post('/update', userController.update);
-router.post('/downloadTpl', userController.downloadTpl);
+router.get('/downloadTpl', userController.downloadTpl);
 router.post('/importUsers', userController.importUsers)
 
 export default router
