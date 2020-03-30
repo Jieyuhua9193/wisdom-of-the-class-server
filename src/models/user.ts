@@ -30,7 +30,7 @@ const userSchema = new Schema({
   officeAddress: { type: String },
   studentId: { type: String },
   dormitory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Dormitory' },
-  familyAddress: { type: mongoose.SchemaTypes.ObjectId, ref: 'Family' },
+  familyAddress: { type: String },
   trajectory: { type: mongoose.SchemaTypes.ObjectId, ref: 'Trajectory' },
   gmtCreate: { type: String, default: moment().format() }
 });

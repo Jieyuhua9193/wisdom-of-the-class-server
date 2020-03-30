@@ -5,6 +5,8 @@ import sendValidateCode from './sendValidateCode';
 import activateAccount from './activateAccount';
 import getValidateCode from './getValidateCode';
 import login from './login';
+import downloadTpl from './downloadTpl';
+import importUsers from './importUsers';
 
 class User {
   constructor() {
@@ -17,6 +19,8 @@ class User {
   public getValidateCode = getValidateCode
   public login = login
   public update = update
+  public downloadTpl = downloadTpl
+  public importUsers = importUsers
 }
 
 export default new User()
