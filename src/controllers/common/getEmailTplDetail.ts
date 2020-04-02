@@ -1,13 +1,12 @@
-import emailTpl from '../../status/emailTpl';
 import resUtil from '../../utils/resUtil'
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 
 export default async (req, res, next) => {
   try {
-    const { fileName } = req.body
+    const { fileName } = req.body;
     const filePath = path.join(path.resolve('./src/common/emailTpl'), `${fileName}.txt`);
-    const data = await fs.readFile(filePath, 'utf-8', function (err: Error, data: any) {
+    await fs.readFile(filePath, 'utf-8', function (err: Error, data: any) {
       if (err) {
         console.log('read fail error', err)
       }

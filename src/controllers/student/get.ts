@@ -3,7 +3,7 @@ import resUtil from '../../utils/resUtil'
 import classUtil from '../../utils/classUtil'
 
 export default async (req, res, next) => {
-  const { email } = req.userInfo
+  const { email } = req.userInfo;
   try {
     const classId = await classUtil.getClassId(email)
     const students = await userModel
