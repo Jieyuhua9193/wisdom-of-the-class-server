@@ -1,17 +1,16 @@
 import resUtil from '../../utils/resUtil';
-import Email, { emailContent } from '../../utils/emailUtil';
+import classUtil from '../../utils/classUtil'
+import Email, {emailContent} from '../../utils/emailUtil';
+import Target from './email/target'
 
 export default async (req, res, next) => {
-  // const { email } = req.userInfo;
-  const { target, emailHtml } = req.body;
+  const { email } = req.userInfo;
+  const { target, emailHtml, users } = req.body;
   try {
-    let emailContent: emailContent = {
-      user: target,
-      subject: '智慧班级邀请函',
-      html: emailHtml
-    };
-    await new Email(emailContent).sendEmail()
-    res.status(200).send(resUtil(0))
+    const classId = await classUtil.getClassId(email);
+    const myTarget = new Target(target, classId, users);
+    const targetUsers = await myTarget.get();
+    res.status(200).send(resUtil(0, targetUsers))
   } catch (e) {
     next(e)
   }

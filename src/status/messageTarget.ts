@@ -4,3 +4,5 @@ enum MessageTarget {
   allTeachers = 2,
   custom = 3
 }
+
+export default MessageTarget
