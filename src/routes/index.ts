@@ -5,6 +5,7 @@ import Rclass from './class';
 import student from './student';
 import mini from './mini';
 import assets from './assets';
+import common from './common';
 import authControllers from '../controllers/auth';
 
 // create application/json parser
@@ -20,4 +21,5 @@ export default app => {
   app.use('/student', student);
   app.use('/mini', mini);
   app.use('/assets', assets);
+  app.use('/common', common);
 }
