@@ -2,6 +2,7 @@ const cacheUtil = require('memory-cache');
 const ejs = require('ejs');
 const path = require('path');
 import Email, { emailContent } from '../../utils/emailUtil';
+import moment from 'moment';
 
 export default async (email: string): Promise<void> => {
   const code = Math.floor(Math.random() * (9999 - 1000)) + 1000;
@@ -12,7 +13,7 @@ export default async (email: string): Promise<void> => {
   let tempData = {
     code: code,
     img: imagePath,
-    EmailDate: '2020-1-13'
+    EmailDate: moment().format('YYYY-MM-DD HH:mm:ss')
   };
   const template = await ejs.renderFile(tempPath, tempData);
   let emailContent: emailContent = {
