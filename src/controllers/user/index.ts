@@ -1,3 +1,4 @@
+import getByEmail from './getByEmail';
 import get from './get';
 import update from './update';
 import register from './register';
@@ -12,15 +13,16 @@ class User {
   constructor() {
   }
 
-  public register = register
-  public get = get
-  public sendValidateCode = sendValidateCode
-  public activateAccount = activateAccount
-  public getValidateCode = getValidateCode
-  public login = login
-  public update = update
-  public downloadTpl = downloadTpl
-  public importUsers = importUsers
+  public register = register;
+  public getByEmail = getByEmail;
+  public get = get;
+  public sendValidateCode = sendValidateCode;
+  public activateAccount = activateAccount;
+  public getValidateCode = getValidateCode;
+  public login = login;
+  public update = update;
+  public downloadTpl = downloadTpl;
+  public importUsers = importUsers;
 }
 
 export default new User()

@@ -8,7 +8,7 @@ const dormitorySchema = new Schema({
   type: { type: Number },
   students: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }]
   // dor_id: {type: Number }
-})
+});
 
 // autoIncrement.initialize(mongoose.connection);
 

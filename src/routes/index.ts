@@ -7,6 +7,7 @@ import mini from './mini';
 import assets from './assets';
 import common from './common';
 import authControllers from '../controllers/auth';
+import testControllers from '../controllers/test';
 
 // create application/json parser
 let jsonParser = bodyParser.json();
@@ -14,6 +15,7 @@ let jsonParser = bodyParser.json();
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 export default app => {
+  app.use('/test', jsonParser, testControllers);
   app.use('/', jsonParser, authControllers);
   app.use('/user', jsonParser, user);
   app.use('/qiniu', qiniu);

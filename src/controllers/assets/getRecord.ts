@@ -9,7 +9,7 @@ export default async (req, res, next) => { // 获取班级资产记录
     const classId = await classUtil.getClassId(email);
     const total = await assetsRecordModel
       .find({ class: classId })
-      .countDocuments()
+      .countDocuments();
     const record = await assetsRecordModel
       .find({ class: classId })
       .skip((page - 1) * size)
