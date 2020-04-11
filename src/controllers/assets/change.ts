@@ -13,10 +13,10 @@ export default async (req, res, next) => {
       res.status(200).send(resUtil('ROLE_ERROR', '权限不足'))
     } else {
       const classId = await classUtil.getClassId(email);
-      record['class'] = classId
-      record['operationPerson'] = user._id
+      record['class'] = classId;
+      record['operationPerson'] = user._id;
       if (record && record.changeType) {
-        const { changeType } = record
+        const { changeType } = record;
         let base = 0;
         if (changeType === assetsChangeType.add) {
           base = record.money * 1
@@ -25,8 +25,8 @@ export default async (req, res, next) => {
         }
         await assetsModel.findOneAndUpdate(
           { class: classId },
-          { $inc: { toatlAssets: base } })
-        await assetsRecordModel.create(record)
+          { $inc: { toatlAssets: base } });
+        await assetsRecordModel.create(record);
         res.status(200).send(resUtil(0))
       } else {
         res.status(200).send(resUtil('FORM_ERROR', '表单信息不完整'))

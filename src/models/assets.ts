@@ -18,7 +18,7 @@ const assetsRecordSchema = new Schema({
   dateTime: { type: String },
   operationPerson: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
   gmtCreate: { type: String, default: moment().format('YYYY-MM-DD HH:mm:ss') }
-})
+});
 
 
 const assetsModel = mongoose.model('Assets', assetsSchema);

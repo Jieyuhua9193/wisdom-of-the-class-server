@@ -8,6 +8,7 @@ import getValidateCode from './getValidateCode';
 import login from './login';
 import downloadTpl from './downloadTpl';
 import importUsers from './importUsers';
+import search from './search';
 
 class User {
   constructor() {
@@ -23,6 +24,7 @@ class User {
   public update = update;
   public downloadTpl = downloadTpl;
   public importUsers = importUsers;
+  public search = search;
 }
 
 export default new User()

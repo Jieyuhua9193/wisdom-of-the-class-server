@@ -1,6 +1,5 @@
 import classModel from '../../models/class';
 import userModel from '../../models/user'
-import classUtil from '../../utils/classUtil';
 import resUtil from '../../utils/resUtil';
 import Role from '../../status/role';
 

@@ -48,6 +48,7 @@ class CompileHtml {
     newHtmlTpl = newHtmlTpl.replace('{{officeAddress}}', this.user.officeAddress || '');
     newHtmlTpl = newHtmlTpl.replace('{{familyAddress}}', this.user.familyAddress || '');
     newHtmlTpl = newHtmlTpl.replace('{{studentId}}', this.user.studentId || '');
+    newHtmlTpl = newHtmlTpl.replace('{{classname}}', this.classname || '');
     newHtmlTpl = newHtmlTpl.replace(
       '{{date}}',
       moment().format('YYYY-MM-DD HH:mm:ss')

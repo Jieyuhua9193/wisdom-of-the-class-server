@@ -10,6 +10,7 @@ router.post('/get-by-email', userController.getByEmail);
 router.post('/get', userController.get);
 router.post('/update', userController.update);
 router.get('/downloadTpl', userController.downloadTpl);
-router.post('/importUsers', userController.importUsers)
+router.post('/importUsers', userController.importUsers);
+router.post('/search', userController.search);
 
 export default router
