@@ -1,9 +1,9 @@
 import clear from './clear';
 
-class MyClass {
+class System {
   constructor() {
   }
   public clear = clear;
 }
 
-export default new MyClass()
+export default new System()

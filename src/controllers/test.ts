@@ -1,14 +1,15 @@
-const path = require('path');
-import fileUtil from '../utils/fileUtil';
+const moment = require('moment');
+const schedule = require('node-schedule');
 
-export default async (req, res, next) => {
-  const { data } = req.body;
-  const unx = new Date().getTime();
-  const catchPath = path.join(
-    path.resolve(
-      './src/catch/email',
-      `1500690094@qq.com.txt`
-    )
-  );
-  const EmeialFile = new fileUtil(catchPath)
+export default (req, res, next) => {
+  const { type } = req.body;
+  // const date = moment('2020-04-11 16:12:00').format('YYYY-MM-DD HH:mm:ss');
+  // // schedule.cancelJob(type);
+  const startAt = '2020-4-11 18:00:00';
+  const start =  new Date(startAt).getTime();
+  // console.log(start);
+  // const now = moment().valueOf();
+  // const boolean = start > now;
+  console.log(start);
+  res.status(200).send('123')
 }

@@ -38,7 +38,7 @@ export default async (req, res, next) => {
           if (!worksheet['A' + i] || !worksheet['E' + i] || !worksheet['F' + i]) {
             break;
           }
-          let arrayItem: any = {}
+          let arrayItem: any = {};
           arrayItem.password = worksheet['B' + i] && worksheet['B' + i].w || ''
           arrayItem.idCardNumber = worksheet['C' + i] && worksheet['C' + i].w || ''
           arrayItem.phoneNumber = worksheet['D' + i] && worksheet['D' + i].w || ''
@@ -50,19 +50,19 @@ export default async (req, res, next) => {
           arrayItem.officeAddress = worksheet['I' + i] && worksheet['I' + i].w || ''
           arrayItem.studentId = worksheet['J' + i] && worksheet['J' + i].w || ''
           arrayItem.familyAddress = worksheet['K' + i] && worksheet['K' + i].w || ''
-          arrayItem.class = classId
-          result.push(arrayItem)
+          arrayItem.class = classId;
+          result.push(arrayItem);
           count++;
         }
-        result.filter(d => d)
-        console.log(result)
+        result.filter(d => d);
+        console.log(result);
         try {
           await userModel.insertMany(result)
           res.status(200).send(resUtil(0, { count }))
         } catch (error) {
           next(error)
         }
-      })
+      });
       await file.on('end', function () {
         console.log(`File [${fieldname}] Finished`)
         console.log('执行完成>>>>')

@@ -3,6 +3,14 @@ import mongoose = require('mongoose');
 import Router from './src/routes/index';
 import dote from 'dotenv';
 
+declare global {
+  namespace NodeJS {
+    interface Global {
+      Task: any
+    }
+  }
+}
+global.Task = {};
 dote.config();
 const app: express.Application = express();
 app.set("port", process.env.PORT || 3000);
@@ -10,14 +18,15 @@ app.set("port", process.env.PORT || 3000);
 // 数据库相关
 const mongoUrl = 'mongodb://127.0.0.1/wisdom_of_class';
 mongoose.Promise = global.Promise;
-mongoose.connect(mongoUrl, 
-  { useNewUrlParser: true, 
+mongoose.connect(mongoUrl,
+  {
+    useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
   })
-.then(() => {
-  console.log('mongodb connection success !')
-}).catch(err => {
+  .then(() => {
+    console.log('mongodb connection success !')
+  }).catch(err => {
   console.log('mongodb connection error >>>' + err)
 });
 

@@ -8,6 +8,7 @@ import assets from './assets';
 import dormitory from './dormitory';
 import system from './system';
 import common from './common';
+import active from './active';
 import authControllers from '../controllers/auth';
 import testControllers from '../controllers/test';
 
@@ -28,4 +29,5 @@ export default app => {
   app.use('/common', common);
   app.use('/dormitory', dormitory);
   app.use('/system', system);
+  app.use('/active', active)
 }
