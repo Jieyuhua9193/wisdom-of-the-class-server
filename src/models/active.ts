@@ -11,17 +11,18 @@ const activeSchema = new Schema({
   imgs: Array,
   status: Number,
   type: Number,
+  leave: String,
   number: Number,
   score: Number,
-  bookingAt: Number,
-  bookingEnd: Number,
-  startAt: Number,
-  endAt: Number,
+  bookingAt: Date,
+  bookingEnd: Date,
+  startAt: Date,
+  endAt: Date,
   gmtCreate: {
     type: String,
     default: moment().format('YYYY-MM-DD HH:mm:ss')
   },
-  createUser: Object,
+  createUser: Object, // 发起人
   student: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }]
 });
 
